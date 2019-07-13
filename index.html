@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Thiru 2020 Water Bill Lookup Website">
+  <meta name="author" content="">
+
+  <title>Thiru Water Bill Search</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="css/landing-page.css" rel="stylesheet">
+  <style>
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999;
+  width: 100%;
+  height: 100%;
+}
+
+.tt-menu {    /* used to be tt-dropdown-menu in older versions */
+  width: 100%;
+
+  margin-top: 4px;
+  padding: 4px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+  
+}
+.tt-suggestions{
+  background-color: darkblue;
+}
+.tt-suggestion {
+  padding: 3px 20px;
+  line-height: 24px;
+  color: black;
+}
+
+.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+.twitter-typeahead, .tt-input{
+  width:100%;
+  height:100%;
+}
+.alertbox{
+  padding-top: 1rem;
+}
+.text-darkblue{
+  color: darkblue;
+}
+.bg-purple{
+  background-color: #8A008A;
+}
+.createline{
+  padding-right:20px;
+  border-right: 1px solid #ccc;
+}
+.rightwindow{
+  padding-left:20px;
+}
+.thirulogonav{
+  height:60px;
+  width:auto;
+}
+.navcontainer{
+  margin-left:5%;
+}
+  </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-light bg-light static-top">
+        <div class="navcontainer">
+          <img src="/img/thirulogoblue.png" class="thirulogonav" alt="Thiru Logo">
+        </div>
+      </nav>
+  <!-- Masthead -->
+
+
+  <header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-9 mx-auto">
+          <h1 class="mb-5">Find Your Previous Water Bills</h1>
+          <h5 class="mb-5">Due to the recent ransomware attack as well as few answers from the Department of Public Works, Baltimore City residents cannot access or receive their water bills. The financial uncertainty that accompanies this issue is unfair, particularly for those working paycheck to paycheck. The Thiru 2020 campaign wanted not only to release a comprehensive water policy plan (words will link to website), but to also offer immediate help.
+          </h5>
+            <h5>Our team has created a tool that uses public data collected over the past six months to assist residents in estimating their monthly water bills. Search yours…</h5>
+          <h2 class="mb-5">Type in your address</h2>
+        </div>
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <div class="form-row">
+              <div class="col-12 col-md-9 mb-2 mb-md-0">
+                <input id='addressinput' type="text" name="address" class="input-large typeahead form-control" placeholder="Enter your address...">
+              </div>
+              <div class="col-12 col-md-3">
+                <span id='searchbuttonspan'><button id='searchbutton' class="btn btn-block btn-lg btn-primary">Search</button></span>
+              </div>
+            </div>
+        </div>
+        
+
+        <div class='container'>
+        <div class="row alertbox">
+            <div class="col-xl-9 mx-auto">
+                <p>*Note: the data set does not include every Baltimore City address </p>
+            <span id='alertbox' hidden='true'>
+            <div class="alert alert-danger" role="alert">
+                Please enter an address.
+              </div>
+              </span>
+              </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Water Bill Table -->
+  <section class="features-icons bg-light text-center">
+    <div class="container" id='waterbillsection'> 
+      <div class='row'>
+        <div class="col-lg-12">
+          
+          <h2 class='text-center' id='AddressTitle'></h2>
+          <h3 class='text-center' id='AccountNumberTitle'></h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <span id='waterbilltable'></span>
+          <h3 class='text-center'>Please factor in the scheduled July 1st 9% increase for July water bills onward.</h3>
+
+        </div>
+      </div>
+      <div class='row'>
+      </div>
+    </div>
+  </section>
+<!-- Water Bill Assistace Program -->
+  <section class="features-icons bg-purple text-center">
+      <div class="container" id='waterbillassistsection'> 
+        <div class="row">
+          <div class="col-lg-6 createline">
+            <h1 class='text-light'>H20 Assists Application</h1>
+            <br>
+            <h3 class='text-center text-light'>The Baltimore H20 Assists program was supposed to go into effect July 1, 2019. Again, because of the ransomware attack, residents are required to go down to City Hall in-person and wait in line to apply. Applications will eventually be processed once systems are back up. Our team was able to get the application online. Complete and mail if a trip downtown during work hours isn’t feasible.   </h3>
+            <h2 ><a class='text-warning' href='/waterassistform.pdf' target='_blank'>Download the Application</a></h2>
+          </div>
+            <div class="col-lg-6 rightwindow">
+            <h1 class='text-light'>Let Us Know Your frustration</h1>
+            <br>
+            <h3 class='text-center text-light'>Our team recognizes the frustration and confusion surrounding stalled water bills. We encourage you to use our tool to better budget and prepare for payments and any backlogged bills. If you have an experience that you’d like to share, as well as suggestions for how the City could better address water-related issues, please do so in the box below.</h3>
+            <h2 class='text-center text-light'><a class='text-warning text-center' href='mailto:thiru@thiru2020.com?subject=Water Bill'>Send Us An Email</a></h2>
+            </div>
+            </div>
+      </div>
+    </section>
+ 
+
+  <!-- Footer -->
+  <footer class="footer bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+          <p class="text-muted small mb-4 mb-lg-0">&copy; Thiru4Baltimore 2019. All Rights Reserved.</p>
+        </div>
+        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item mr-3">
+              <a href="https://www.facebook.com/thiruforbaltimore/">
+                <i class="fab fa-facebook fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <li class="list-inline-item mr-3">
+              <a target="_blank" href="https://twitter.com/thiruforbalto">
+                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href=https://www.instagram.com/thiru4baltimore/>
+                <i class="fab fa-instagram fa-2x fa-fw"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src='js/typeahead.js'></script>
+
+  <script>
+
+ // Instantiate the Bloodhound suggestion engine for the typeahead functionality
+var addresses = new Bloodhound({
+  datumTokenizer: function(datum) {
+    return Bloodhound.tokenizers.whitespace(datum.value);
+  },
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  remote: {
+    wildcard: '%QUERY',
+    url: 'address.php?partialaddress=%QUERY',
+    transform: function(response) {
+      console.log(response);
+      // Map the remote source JSON array to a JavaScript object array
+      return $.map(response, function(address) {
+        return {
+          value: address
+        };
+      });
+    }
+  }
+});
+
+// Instantiate the Typeahead UI
+$('.typeahead').typeahead(null, {
+  display: 'value',
+  source: addresses
+});
+
+
+$('#searchbutton').click(function(){
+  //Search Button is Clicked
+  var address = $('#addressinput').val();
+  if (/\S/.test(address) == false || address == null) {
+    //Address empty display the alertbox
+    $("#alertbox").attr("hidden",false);
+    setTimeout(function(){
+      $("#alertbox").attr("hidden",true);
+    },4000)
+    return null; //Exit out so nothing else is run.
+  }
+  //If we made it this far it means that there is something in the address bar.
+  //Replaces the search button with a spinner and disables mutliple clicking.
+  $("#searchbutton").attr("disabled",true);
+  $("#searchbutton").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+  
+  //Send the ajax request to address.php to get the results.
+  $.ajax({
+    method: "POST",
+    url: "address.php",
+    data: { address: address}
+  }).done(function( msg ) {
+    console.log(msg);
+    var waterbills = JSON.parse(msg); //Turn the JSON response into an object
+    $("#AddressTitle").text(address); //Put the address as the title of the table
+    $("#AccountNumberTitle").text("Account Number: " + waterbills[0].Account_Number); //Add the account number to the title.
+    fillTable(waterbills); //Fill the water bill table.
+
+    //Reactivate the search button
+    $("#searchbutton").html('Search');
+    $("#searchbutton").attr("disabled",false);
+
+    //Move the user to the water bill section. This is because it's not always obvious that it's loaded.
+    $('html,body').animate({
+      scrollTop: $("#waterbillsection").offset().top},
+      'slow');
+  });
+
+});
+
+function fillTable(waterbills){
+  var tablehtml = "<table class='table'><thead>";
+  //Delete out account number
+  for(var t=0; t<waterbills.length;t++){
+    delete waterbills[t].Account_Number
+  }
+  //Grab the keys and store them in an object.
+  var keys = Object.keys(waterbills[0]);
+
+  //Set the headers of the table
+  var lengthofkeys = keys.length;
+  for(var x=0;x<lengthofkeys;x++){
+    tablehtml+= "<th scope='col'>" + keys[x].replace(/_/g,' ').replace("Current","");
+  }
+  tablehtml += "</thead><tbody>";
+  
+  //Set the actual content of the table.
+  for(var y=0; y<waterbills.length;y++){
+    tablehtml += "<tr><th scope='row'>" + waterbills[y][keys[0]].toUpperCase() + "</th>";
+    for(var z=1;z<lengthofkeys;z++){
+      tablehtml+="<td>" + waterbills[y][keys[z]].toUpperCase() + "</td>"; 
+    }
+    tablehtml += "</tr>";
+  }
+  
+  $("#waterbilltable").html(tablehtml);//Replace the HTML in the table tag with the HTML generated here.
+}
+  </script>
+</body>
+
+</html>
